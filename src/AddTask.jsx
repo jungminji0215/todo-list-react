@@ -12,9 +12,6 @@ export default function AddTask({ onAddTask }) {
       />
       <button
         onClick={() => {
-          // 추가 후 input 창 비우기
-          setText("");
-
           onAddTask(text);
         }}
       >

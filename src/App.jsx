@@ -4,75 +4,54 @@ import TaskList from "./TaskList.jsx";
 import { useReducer } from "react";
 
 export default function TaskApp() {
-  const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
+  // tasks 배열을 보유
+  // const [tasks, setTasks] = useState(initialTasks);
+
+  // 할일 추가
+  // function handleAddTask(text) {
+  //   const todo = {
+  //     id: nextId++,
+  //     text: text,
+  //   };
+
+  //   setTasks([...tasks, todo]);
+  // }
+
+  const [tasks, taskDispatch] = useReducer(tasksReducer, initialTasks);
 
   function handleAddTask(text) {
-    dispatch({
-      type: "added",
+    taskDispatch({
+      type: "add",
       id: nextId++,
       text: text,
     });
   }
 
-  function handleChangeTask(task) {
-    dispatch({
-      type: "changed",
-      task: task,
-    });
-  }
-
-  function handleDeleteTask(taskId) {
-    dispatch({
-      type: "deleted",
-      id: taskId,
-    });
-  }
   return (
     <>
-      <h1>Prague itinerary</h1>
+      <h1>할일 목록</h1>
       <AddTask onAddTask={handleAddTask} />
-      <TaskList
-        tasks={tasks}
-        onChangeTask={handleChangeTask}
-        onDeleteTask={handleDeleteTask}
-      />
+      <TaskList tasks={tasks} />
     </>
   );
 }
 
 function tasksReducer(tasks, action) {
-  switch (action.type) {
-    case "added": {
-      return [
-        ...tasks,
-        {
-          id: action.id,
-          text: action.text,
-          done: false,
-        },
-      ];
-    }
-    case "changed": {
-      return tasks.map((t) => {
-        if (t.id === action.task.id) {
-          return action.task;
-        } else {
-          return t;
-        }
-      });
-    }
-    case "deleted": {
-      return tasks.filter((t) => t.id !== action.id);
-    }
-    default: {
-      throw Error("Unknown action: " + action.type);
-    }
+  if (action.type === "add") {
+    return [
+      ...tasks,
+      {
+        id: action.id,
+        text: action.text,
+        done: false,
+      },
+    ];
   }
 }
 
 let nextId = 3;
 const initialTasks = [
-  { id: 0, text: "Visit Kafka Museum", done: true },
-  { id: 1, text: "Watch a puppet show", done: false },
-  { id: 2, text: "Lennon Wall pic", done: false },
+  { id: 0, text: "Visit Kafka Museum" },
+  { id: 1, text: "Watch a puppet show" },
+  { id: 2, text: "Lennon Wall pic" },
 ];
