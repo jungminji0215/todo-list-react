@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useTodoContext } from "./context/TodoContext";
 
-export default function AddTask({ onAddTask }) {
+export default function AddTask() {
   const [text, setText] = useState("");
+
+  const { handleAddTask } = useTodoContext();
 
   return (
     <>
@@ -12,7 +15,7 @@ export default function AddTask({ onAddTask }) {
       />
       <button
         onClick={() => {
-          onAddTask(text);
+          handleAddTask(text);
         }}
       >
         Add

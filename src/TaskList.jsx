@@ -1,4 +1,8 @@
-export default function TaskList({ tasks }) {
+import { useTodoContext } from "./context/TodoContext";
+
+export default function TaskList() {
+  const { tasks } = useTodoContext();
+
   return (
     <ul>
       {tasks.map((task) => (
